@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <h3> E-Learning</h3>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/dashboard">Enroll Courses</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/enrolled">View Enrolled Courses</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/">Logout</a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container">
+    <center> <div class="well">
+
+</div>
+
+<table class='table table-striped'>
+  <thead>
+    <tr>
+      <th>COURSEID  </th>
+      <th>USERID  </th>
+      <th>DATE </th>
+      <th>STATUS </th>
+    </tr>
+
+      <% for(var i=0;i<message.length;i++){%>
+        <tr>
+        <td><%=message[i].cid %></td>
+        <td><%=message[i].UserId %></td>
+         <td><%=message[i].date %></td>
+
+        <td><button type="button" onclick=func(<%=message[i].cid %>) class="btn btn-success">Remove</button></td>
+        </tr>
+      <%}%>
+</thead>
+      </center></div>
+<script type="text/javascript">
+function func(k){
+  const p={k};
+  fetch('/remove', {method: 'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p)})
+.then(function(response) {
+if(response.ok) {
+  console.log('Click was recorded');
+  fetch('/enrolled',{method:'GET', headers:{'Content-Type':'application/json'}}).then(function(response){
+    if(response.ok){
+      console.log("Edited")
+    }
+  })
+  return;
+}
+
+throw new Error('Request failed.');
+
+})
+.catch(function(error) {
+console.log(error);
+
+});
+}
+
+</script>
+
+  </body>
+</html>
